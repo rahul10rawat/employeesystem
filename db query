@@ -1,0 +1,156 @@
+create database employee_management;
+use employee_management;
+
+--
+-- Table structure for table `login_master`
+--
+
+CREATE TABLE `login_master` (
+  `user_id` int(11) NOT NULL,
+  `password` varchar(30) DEFAULT NULL,
+  `role` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `login_master`
+--
+
+INSERT INTO `login_master` (`user_id`, `password`, `role`) VALUES
+(1, '1', 'Admin'),
+(2, '2', 'HOD'),
+(3, '3', 'employee');
+
+-- --------------------------------------------------------
+
+  
+CREATE TABLE `emplolyee_status` (
+  `compliance_id` int(11) DEFAULT NULL,
+  `status_id` int(11) NOT NULL,
+  `emp_id` int(11) DEFAULT NULL,
+  `comments` varchar(15) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `dep_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  
+--
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `emp_id` int(11) NOT NULL,
+  `first_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_compliance`
+--
+
+CREATE TABLE `emp_compliance` (
+  `compliance_id` int(11) NOT NULL,
+  `rl_type` varchar(15) DEFAULT NULL,
+  `details` varchar(250) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `dep_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_dept`
+--
+
+CREATE TABLE `emp_dept` (
+  `department_id` int(11) NOT NULL,
+  `dept_name` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `register`
+--
+
+CREATE TABLE `register` (
+  `employee_id` int(11) DEFAULT NULL,
+  `first_name` varchar(10) DEFAULT NULL,
+  `last_name` varchar(10) DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
+  `email_id` varchar(50) DEFAULT NULL,
+  `mobile_no` int(10) DEFAULT NULL,
+  `password` varchar(8) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `emplolyee_status`
+--
+ALTER TABLE `emplolyee_status`
+  ADD PRIMARY KEY (`status_id`),
+  ADD KEY `compliance_id` (`compliance_id`),
+  ADD KEY `emp_id` (`emp_id`),
+  ADD KEY `dep_id` (`dep_id`);
+
+--
+-- Indexes for table `employees`
+--
+ALTER TABLE `employees`
+  ADD PRIMARY KEY (`emp_id`),
+  ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `emp_compliance`
+--
+ALTER TABLE `emp_compliance`
+  ADD PRIMARY KEY (`compliance_id`),
+  ADD KEY `dep_id` (`dep_id`);
+
+--
+-- Indexes for table `emp_dept`
+--
+ALTER TABLE `emp_dept`
+  ADD PRIMARY KEY (`department_id`);
+
+--
+-- Indexes for table `login_master`
+--
+ALTER TABLE `login_master`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `emplolyee_status`
+--
+ALTER TABLE `emplolyee_status`
+  ADD CONSTRAINT `emplolyee_status_ibfk_1` FOREIGN KEY (`compliance_id`) REFERENCES `emp_compliance` (`compliance_id`),
+  ADD CONSTRAINT `emplolyee_status_ibfk_2` FOREIGN KEY (`emp_id`) REFERENCES `employees` (`emp_id`),
+  ADD CONSTRAINT `emplolyee_status_ibfk_3` FOREIGN KEY (`dep_id`) REFERENCES `emp_dept` (`department_id`);
+
+--
+-- Constraints for table `employees`
+--
+ALTER TABLE `employees`
+  ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `emp_dept` (`department_id`);
+
+--
+-- Constraints for table `emp_compliance`
+--
+ALTER TABLE `emp_compliance`
+  ADD CONSTRAINT `emp_compliance_ibfk_1` FOREIGN KEY (`dep_id`) REFERENCES `emp_dept` (`department_id`);
+COMMIT;
+
+
+select * from login_master;
+ 
